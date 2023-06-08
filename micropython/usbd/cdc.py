@@ -10,6 +10,7 @@ from .utils import (
 )
 from micropython import const
 import ustruct
+import time
 
 _DEV_CLASS_MISC = const(0xef)
 _CS_DESC_TYPE = const(0x24)   # CS Interface type communication descriptor
@@ -69,18 +70,38 @@ class CDCControlInterface(USBInterface):
 class CDCDataInterface(USBInterface):
     # Implements the CDC Data Interface
 
-    def __init__(self, interface_str):
+    def __init__(self, interface_str, timeout=1):
         super().__init__(_CDC_ITF_DATA_CLASS, _CDC_ITF_DATA_SUBCLASS,
                          _CDC_ITF_DATA_PROT)
+        self.rx_buf = bytearray(256)
+        self.mv_buf = memoryview(self.rx_buf)
+        self.rx_done = False
+        self.rx_nbytes = 0
+        self.timeout = timeout
 
     def get_endpoint_descriptors(self, ep_addr, str_idx):
         # XXX OUT = 0x00 but is defined as 0x80?
         self.ep_in = (ep_addr + 2) | EP_OUT_FLAG
         self.ep_out = (ep_addr + 2) & ~EP_OUT_FLAG
-        print("cdc in={} out={}".format(self.ep_in, self.ep_out))
         # one IN / OUT Endpoint
         e_out = endpoint_descriptor(self.ep_out, "bulk", 64, 0)
         e_in = endpoint_descriptor(self.ep_in, "bulk", 64, 0)
-        desc = e_out + e_in
-        return (desc, [], (self.ep_out, self.ep_in))
+        return (e_out + e_in, [], (self.ep_out, self.ep_in))
 
+    def write(self, data):
+        super().submit_xfer(self.ep_in, data)
+
+    def read(self, nbytes=0):
+        # XXX PoC.. When returning, it should probably
+        # copy it to a ringbuffer instead of leaving it here
+        super().submit_xfer(self.ep_out, self.rx_buf, self._cb_rx)
+        now = time.time()
+        self.rx_done = False
+        self.rx_nbytes = 0
+        while ((time.time() - now) < self.timeout) and not self.rx_done:
+            time.sleep_ms(10)
+        return bytes(self.mv_buf[:self.rx_nbytes]) if self.rx_done else None
+
+    def _cb_rx(self, ep, res, num_bytes):
+        self.rx_done = True
+        self.rx_nbytes = num_bytes
