@@ -6,7 +6,7 @@ from .device import (
 )
 from .utils import (
     endpoint_descriptor,
-    EP_OUT_FLAG
+    EP_IN_FLAG
 )
 from micropython import const
 import ustruct
@@ -63,8 +63,8 @@ class CDCControlInterface(USBInterface):
         return desc, strs
 
     def get_endpoint_descriptors(self, ep_addr, str_idx):
-        self.ep_in = endpoint_descriptor((ep_addr + 1) | EP_OUT_FLAG, "interrupt", 8, 16)
-        return (self.ep_in, [], ((ep_addr+1) | EP_OUT_FLAG,))
+        self.ep_in = endpoint_descriptor((ep_addr + 1) | EP_IN_FLAG, "interrupt", 8, 16)
+        return (self.ep_in, [], ((ep_addr+1) | EP_IN_FLAG,))
 
 
 class CDCDataInterface(USBInterface):
@@ -80,9 +80,8 @@ class CDCDataInterface(USBInterface):
         self.timeout = timeout
 
     def get_endpoint_descriptors(self, ep_addr, str_idx):
-        # XXX OUT = 0x00 but is defined as 0x80?
-        self.ep_in = (ep_addr + 2) | EP_OUT_FLAG
-        self.ep_out = (ep_addr + 2) & ~EP_OUT_FLAG
+        self.ep_in = (ep_addr + 2) | EP_IN_FLAG
+        self.ep_out = (ep_addr + 2) & ~EP_IN_FLAG
         # one IN / OUT Endpoint
         e_out = endpoint_descriptor(self.ep_out, "bulk", 64, 0)
         e_in = endpoint_descriptor(self.ep_in, "bulk", 64, 0)
