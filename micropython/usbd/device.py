@@ -2,7 +2,7 @@
 # MIT license; Copyright (c) 2022 Angus Gratton
 from micropython import const
 import machine
-import ustruct
+import struct
 
 from .utils import split_bmRequestType, EP_IN_FLAG
 
@@ -78,7 +78,8 @@ class _USBDevice:
             descriptor_device_cb=self._descriptor_device_cb,
             descriptor_config_cb=self._descriptor_config_cb,
             descriptor_string_cb=self._descriptor_string_cb,
-            open_driver_cb=self._open_driver_cb,
+            open_cb=self._open_cb,
+            reset_cb=self._reset_cb,
             control_xfer_cb=self._control_xfer_cb,
             xfer_cb=self._xfer_cb,
         )
@@ -118,7 +119,7 @@ class _USBDevice:
 
         FMT = "<BBHBBBBHHHBBBB"
         # static descriptor fields
-        f = ustruct.unpack(FMT, self._usbd.static.desc_device)
+        f = struct.unpack(FMT, self._usbd.static.desc_device)
 
         def maybe_set(value, idx):
             # Override a numeric descriptor value or keep static value f[idx] if 'value' is None
@@ -134,7 +135,7 @@ class _USBDevice:
 
         # Either copy each descriptor field directly from the static device descriptor, or 'maybe'
         # override if a custom value has been set on this object
-        return ustruct.pack(
+        return struct.pack(
             FMT,
             f[0],  # bLength
             f[1],  # bDescriptorType
@@ -257,7 +258,7 @@ class _USBDevice:
         bNumInterfaces = self._usbd.static.itf_max if self.include_static else 0
         bNumInterfaces += len(self._itfs)
 
-        ustruct.pack_into(
+        struct.pack_into(
             "<BBHBBBBB",
             desc,
             0,
@@ -286,9 +287,37 @@ class _USBDevice:
         except IndexError:
             return None
 
-    def _open_driver_cb(self, interface_desc_view):
-        # Singleton callback from TinyUSB custom class driver
-        pass
+    def _open_cb(self, interface_desc_view):
+        # Singleton callback from TinyUSB custom class driver, when USB host does
+        # Set Configuration. The "runtime class device" accepts all interfaces that
+        # it has sent in descriptors, and calls this callback.
+
+        # Walk the view of the "claimed" descriptor data provided in the
+        # callback and call handle_open() on each claimed interface
+        #
+        # ... this may be unnecessary at the moment, as only one configuration is supported so we
+        # can probably assume all the interfaces will be included.
+        i = 0
+        while i < len(interface_desc_view):
+            # descriptor length, type, and index (if it's an interface descriptor)
+            dl, dt, di = interface_desc_view[i : i + 3]
+            if dt == _STD_DESC_INTERFACE_TYPE:
+                if di >= self._usbd.static.itf_max:
+                    di -= self._usbd.static.itf_max
+                self._itfs[di].handle_open()
+            i += dl
+            assert dl
+
+    def _reset_cb(self):
+        # Callback when the USB device is reset by the host
+
+        # Cancel outstanding transfer callbacks
+        for k in self._ep_cbs.keys():
+            self._ep_cbs[k] = None
+
+        # Allow interfaces to respond to the reset
+        for itf in self._itfs:
+            itf.handle_reset()
 
     def _submit_xfer(self, ep_addr, data, done_cb=None):
         # Singleton function to submit a USB transfer (of any type except control).
@@ -387,6 +416,7 @@ class USBInterface:
         self.bInterfaceSubClass = bInterfaceSubClass
         self.bInterfaceProtocol = bInterfaceProtocol
         self.interface_str = interface_str
+        self._open = False
 
     def get_itf_descriptor(self, num_eps, itf_idx, str_idx):
         # Return the interface descriptor binary data and associated other
@@ -421,7 +451,7 @@ class USBInterface:
         #   (indexes in the descriptor data should start from 'str_idx'.)
         #
         # See USB 2.0 specification section 9.6.5 p267 for standard interface descriptors.
-        desc = ustruct.pack(
+        desc = struct.pack(
             "<" + "B" * _STD_DESC_INTERFACE_LEN,
             _STD_DESC_INTERFACE_LEN,  # bLength
             _STD_DESC_INTERFACE_TYPE,  # bDescriptorType
@@ -466,6 +496,30 @@ class USBInterface:
         #   start from ep_addr, optionally with the utils.EP_IN_FLAG bit set.)
         return (b"", [], [])
 
+    def handle_open(self):
+        # Callback called when the USB host accepts the device configuration.
+        #
+        # Override this function to initiate any operations that the USB interface
+        # should do when the USB device is configured to the host.
+        self._open = True
+
+    def handle_reset(self):
+        # Callback called on every registered interface when the USB device is
+        # reset by the host. This can happen when the USB device is unplugged,
+        # or if the host triggers a reset for some other reason.
+        #
+        # Override this function to cancel any pending operations specific to
+        # the interface (outstanding USB transfers are already cancelled).
+        #
+        # At this point, no USB functionality is available - handle_open() will
+        # be called later if/when the USB host re-enumerates and configures the
+        # interface.
+        self._open = False
+
+    def is_open(self):
+        # Returns True if the interface is in use
+        return self._open
+
     def handle_device_control_xfer(self, stage, request):
         # Control transfer callback. Override to handle a non-standard device
         # control transfer where bmRequestType Recipient is Device, Type is
@@ -486,11 +540,11 @@ class USBInterface:
         # The function can call split_bmRequestType() to split bmRequestType into
         # (Recipient, Type, Direction).
         #
-        # Result:
+        # Result, any of:
         #
-        # - True to continue the request False to STALL the endpoint A buffer
-        # - interface object to provide a buffer to the host as part of the
-        # - transfer, if possible.
+        # - True to continue the request, False to STALL the endpoint.
+        # - Buffer interface object to provide a buffer to the host as part of the
+        #   transfer, if possible.
         return False
 
     def handle_interface_control_xfer(self, stage, request):
@@ -512,7 +566,8 @@ class USBInterface:
     def handle_endpoint_control_xfer(self, stage, request):
         # Control transfer callback. Override to handle a device
         # control transfer where bmRequestType Recipient is Endpoint and
-        # the lower byte of wIndex indicates an endpoint address associated with this interface.
+        # the lower byte of wIndex indicates an endpoint address associated
+        # with this interface.
         #
         # bmRequestType Type will generally have any value except
         # utils.REQ_TYPE_STANDARD, as Standard endpoint requests are handled by
@@ -546,4 +601,25 @@ class USBInterface:
         #
         # Note that done_cb may be called immediately, possibly before this
         # function has returned to the caller.
+        if not self._open:
+            raise RuntimeError
         return get_usbdevice()._submit_xfer(ep_addr, data, done_cb)
+
+    def set_ep_stall(self, ep_addr, stall):
+        # Set or clear endpoint STALL state, according to the bool "stall" parameter.
+        #
+        # Generally endpoint STALL is handled automatically by TinyUSB, but
+        # there are some device classes that need to explicitly stall or unstall
+        # an endpoint under certain conditions.
+        if not self._open or ep_addr not in get_usbdevice()._eps:
+            raise RuntimeError
+        get_usbdevice()._usbd.set_ep_stall(ep_addr, stall)
+
+    def get_ep_stall(self, ep_addr):
+        # Get the current endpoint STALL state.
+        #
+        # Endpoint can be stalled/unstalled by host, TinyUSB stack, or calls to
+        # set_ep_stall().
+        if not self._open or ep_addr not in get_usbdevice()._eps:
+            raise RuntimeError
+        return get_usbdevice()._usbd.get_ep_stall(ep_addr)

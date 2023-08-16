@@ -1,7 +1,7 @@
 # MicroPython USB MIDI module
 # MIT license; Copyright (c) 2023 Angus Gratton, Paul Hamshere
 from micropython import const
-import ustruct
+import struct
 
 from .device import USBInterface
 from .utils import endpoint_descriptor, EP_IN_FLAG
@@ -57,7 +57,7 @@ class DummyAudioInterface(USBInterface):
         desc, strs = super().get_itf_descriptor(num_eps, itf_idx, str_idx)
 
         # Append the class-specific AudioControl interface descriptor
-        desc += ustruct.pack(
+        desc += struct.pack(
             "<BBBHHBB",
             9,  # bLength
             0x24,  # bDescriptorType CS_INTERFACE
@@ -124,7 +124,7 @@ class MIDIInterface(USBInterface):
         _JACK_OUT_DESC_LEN = const(9)
 
         # Midi Streaming interface descriptor
-        cs_ms_interface = ustruct.pack(
+        cs_ms_interface = struct.pack(
             "<BBBHH",
             7,  # bLength
             0x24,  # bDescriptorType CS_INTERFACE
@@ -135,7 +135,7 @@ class MIDIInterface(USBInterface):
         )
 
         def jack_in_desc(bJackType, bJackID):
-            return ustruct.pack(
+            return struct.pack(
                 "<BBBBBB",
                 _JACK_IN_DESC_LEN,  # bLength
                 0x24,  # bDescriptorType CS_INTERFACE
@@ -146,7 +146,7 @@ class MIDIInterface(USBInterface):
             )
 
         def jack_out_desc(bJackType, bJackID, bSourceId, bSourcePin):
-            return ustruct.pack(
+            return struct.pack(
                 "<BBBBBBBBB",
                 _JACK_OUT_DESC_LEN,  # bLength
                 0x24,  # bDescriptorType CS_INTERFACE
@@ -250,7 +250,7 @@ class MIDIInterface(USBInterface):
 
         # rx side, USB "in" endpoint and embedded MIDI IN Jacks
         e_out = endpoint_descriptor(self.ep_in, "bulk", 64, 0)
-        cs_out = ustruct.pack(
+        cs_out = struct.pack(
             "<BBBB" + "B" * self._num_rx,
             4 + self._num_rx,  # bLength
             0x25,  # bDescriptorType CS_ENDPOINT
@@ -261,7 +261,7 @@ class MIDIInterface(USBInterface):
 
         # tx side, USB "out" endpoint and embedded MIDI OUT jacks
         e_in = endpoint_descriptor(self.ep_out, "bulk", 64, 0)
-        cs_in = ustruct.pack(
+        cs_in = struct.pack(
             "<BBBB" + "B" * self._num_tx,
             4 + self._num_tx,  # bLength
             0x25,  # bDescriptorType CS_ENDPOINT
@@ -282,11 +282,11 @@ class MidiUSB(MIDIInterface):
         super().__init__()
 
     def note_on(self, channel, pitch, vel):
-        obuf = ustruct.pack("<BBBB", 0x09, 0x90 | channel, pitch, vel)
+        obuf = struct.pack("<BBBB", 0x09, 0x90 | channel, pitch, vel)
         super().send_data(obuf)
 
     def note_off(self, channel, pitch, vel):
-        obuf = ustruct.pack("<BBBB", 0x08, 0x80 | channel, pitch, vel)
+        obuf = struct.pack("<BBBB", 0x08, 0x80 | channel, pitch, vel)
         super().send_data(obuf)
 
     def start(self):
