@@ -8,6 +8,8 @@ from .utils import (
     endpoint_descriptor,
     split_bmRequestType,
     STAGE_SETUP,
+    STAGE_DATA,
+    STAGE_ACK,
     REQ_TYPE_STANDARD,
     REQ_TYPE_CLASS,
     EP_IN_FLAG
@@ -31,6 +33,26 @@ _CDC_FUNC_DESC_HEADER = const(0)
 _CDC_FUNC_DESC_CALL_MANAGEMENT = const(1)
 _CDC_FUNC_DESC_ABSTRACT_CONTROL = const(2)
 _CDC_FUNC_DESC_UNION = const(6)
+
+# CDC class requests, table 13, PSTN subclass
+_SET_LINE_CODING_REQ = const(0x20)
+_GET_LINE_CODING_REQ = const(0x21)
+_SET_CONTROL_LINE_STATE = const(0x22)
+_SEND_BREAK_REQ = const(0x23)
+
+_LINE_CODING_STOP_BIT_1 = const(0)
+_LINE_CODING_STOP_BIT_1_5 = const(1)
+_LINE_CODING_STOP_BIT_2 = const(2)
+
+
+_LINE_CODING_PARITY_NONE = const(0)
+_LINE_CODING_PARITY_ODD = const(1)
+_LINE_CODING_PARITY_EVEN = const(2)
+_LINE_CODING_PARITY_MARK = const(3)
+_LINE_CODING_PARITY_SPACE = const(4)
+
+parity_bits_repr = ['N', 'O', 'E', 'M', 'S']
+stop_bits_repr = ['1', '1.5', '2']
 
 # Other definitions
 _CDC_VERSION = const(0x0120)  # release number in binary-coded decimal
@@ -58,6 +80,13 @@ class CDCControlInterface(USBInterface):
 
     def __init__(self, _):
         super().__init__(_INTERFACE_CLASS_CDC, _INTERFACE_SUBCLASS_CDC, _PROTOCOL_NONE)
+        self.rts = None
+        self.dtr = None
+        self.baudrate = None
+        self.stop_bits = 0
+        self.parity = 0
+        self.data_bits = None
+        self.line_coding_state = bytearray(7)
 
     def get_itf_descriptor(self, num_eps, itf_idx, str_idx):
         # CDC needs a Interface Association Descriptor (IAD)
@@ -113,12 +142,36 @@ class CDCControlInterface(USBInterface):
         return (self.ep_in, [], ((ep_addr+1) | EP_IN_FLAG,))
 
     def handle_interface_control_xfer(self, stage, request):
-        # Handle standard and class-specific interface control transfers for HID devices.
-        bmRequestType, bRequest, wValue, _, _ = request
-        recipient, req_type, _ = split_bmRequestType(bmRequestType)
+        # Handle standard and class-specific interface control transfers 
+        bmRequestType, bRequest, wValue, _, wLength = request
+        recipient, req_type, req_dir = split_bmRequestType(bmRequestType)
+        if stage == STAGE_SETUP:
+            if req_type == REQ_TYPE_CLASS:
+                if bRequest == _SET_LINE_CODING_REQ:
+                    # XXX check against wLength
+                    return self.line_coding_state
+                elif bRequest == _GET_LINE_CODING_REQ:
+                    return self.line_coding_state
+                elif bRequest == _SET_CONTROL_LINE_STATE:
+                    # DTR = BIT0, RTS = BIT1
+                    self.dtr = bool(wValue & 0x1)
+                    self.rts = bool(wValue & 0x2)
+                    return b""
 
-        print(f'itf cntrl: {recipient}, {req_type}')
-        super().handle_interface_control_xfer(stage, request)
+        if stage == STAGE_DATA:
+            if req_type == REQ_TYPE_CLASS:
+                if bRequest == _SET_LINE_CODING_REQ:
+                    # Byte 0-3   Byte 4      Byte 5       Byte 6
+                    # dwDTERate  bCharFormat bParityType  bDataBits
+                    self.baudrate, self.stop_bits, self.parity, self.data_bits = ustruct.unpack(
+                        '<LBBB', self.line_coding_state)
+        return True
+
+    def get_control_line(self):
+        return self.dtr, self.rts
+
+    def __repr__(self):
+        return f"{self.baudrate}/{self.data_bits}/{parity_bits_repr[self.parity]}/{stop_bits_repr[self.stop_bits]} rts={self.rts} dtr={self.dtr} "
 
 
 class CDCDataInterface(USBInterface):
