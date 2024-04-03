@@ -95,11 +95,11 @@ class _Device:
         id_vendor=None,
         id_product=None,
         bcd_device=None,
-        device_class=None,
-        device_subclass=None,
-        device_protocol=None,
+        device_class=0,
+        device_subclass=0,
+        device_protocol=0,
         config_str=None,
-        max_power_ma=50,
+        max_power_ma=None,
     ):
         # Configure the USB device with a set of interfaces, and optionally reconfiguring the
         # device and configuration descriptor fields
@@ -137,9 +137,9 @@ class _Device:
             f[0],  # bLength
             f[1],  # bDescriptorType
             f[2],  # bcdUSB
-            maybe_set(device_class, 3),  # bDeviceClass
-            maybe_set(device_subclass, 4),  # bDeviceSubClass
-            maybe_set(device_protocol, 5),  # bDeviceProtocol
+            device_class,  # bDeviceClass
+            device_subclass,  # bDeviceSubClass
+            device_protocol,  # bDeviceProtocol
             f[6],  # bMaxPacketSize0, TODO: allow overriding this value?
             maybe_set(id_vendor, 7),  # idVendor
             maybe_set(id_product, 8),  # idProduct
@@ -164,14 +164,14 @@ class _Device:
         # Determine the total length of the configuration descriptor, by making dummy
         # calls to build the config descriptor
         desc = Descriptor(None)
-        desc.append(initial_cfg)
+        desc.extend(initial_cfg)
         for itf in itfs:
             itf.desc_cfg(desc, 0, 0, [])
 
         # Allocate the real Descriptor helper to write into it, starting
         # after the standard configuration descriptor
         desc = Descriptor(bytearray(desc.o))
-        desc.append(initial_cfg)
+        desc.extend(initial_cfg)
         for itf in itfs:
             itf.desc_cfg(desc, itf_num, ep_num, strs)
 
@@ -197,6 +197,13 @@ class _Device:
         if configuration_str:
             iConfiguration = len(strs)
             strs.append(configuration_str)
+
+        if max_power_ma is None:
+            # Default to whatever value the builtin driver reports
+            max_power_ma = builtin.desc_cfg[8]
+        else:
+            # Otherwise, convert from mA to the units used in the descriptor
+            max_power_ma //= 2
 
         desc.pack_into(
             "<BBHBBBBB",
@@ -603,8 +610,8 @@ class Descriptor:
             struct.pack_into(fmt, self.b, offs, *args)
         self.o = max(self.o, end)
 
-    def append(self, a):
-        # Append some bytes-like data to the descriptor
+    def extend(self, a):
+        # Extend the descriptor with some bytes-like data
         if self.b:
             self.b[self.o : self.o + len(a)] = a
         self.o += len(a)

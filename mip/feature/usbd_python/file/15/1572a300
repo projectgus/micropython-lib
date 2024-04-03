@@ -11,6 +11,13 @@ _INTERFACE_CLASS_AUDIO = const(0x01)
 _INTERFACE_SUBCLASS_AUDIO_CONTROL = const(0x01)
 _INTERFACE_SUBCLASS_AUDIO_MIDISTREAMING = const(0x03)
 
+# Audio subclass extends the standard endpoint descriptor
+# with two extra bytes
+_STD_DESC_AUDIO_ENDPOINT_LEN = const(9)
+_CLASS_DESC_ENDPOINT_LEN = const(5)
+
+_STD_DESC_ENDPOINT_TYPE = const(0x5)
+
 _JACK_TYPE_EMBEDDED = const(0x01)
 _JACK_TYPE_EXTERNAL = const(0x02)
 
@@ -192,8 +199,15 @@ class MIDIInterface(Interface):
             0x24,  # bDescriptorType CS_INTERFACE
             0x01,  # bDescriptorSubtype MS_HEADER
             0x0100,  # BcdADC
-            # wTotalLength: this descriptor, plus length of all Jack descriptors
-            7 + 4 * (_JACK_IN_DESC_LEN + _JACK_OUT_DESC_LEN),
+            # wTotalLength: of all class-specific descriptors
+            7
+            + 2
+            * (
+                _JACK_IN_DESC_LEN
+                + _JACK_OUT_DESC_LEN
+                + _STD_DESC_AUDIO_ENDPOINT_LEN
+                + _CLASS_DESC_ENDPOINT_LEN
+            ),
         )
 
         # The USB MIDI standard 1.0 allows modelling a baffling range of MIDI
@@ -222,26 +236,10 @@ class MIDIInterface(Interface):
         self.ep_in = ep_num | _EP_IN_FLAG
 
         # rx side, USB "in" endpoint and embedded MIDI IN Jacks
-        desc.endpoint(self.ep_in, "bulk", 64, 0)
-        desc.pack(
-            "BBBBB",
-            5,  # bLength
-            0x25,  # bDescriptorType CS_ENDPOINT
-            0x01,  # bDescriptorSubtype MS_GENERAL
-            1,  # bNumEmbMIDIJack
-            _EMB_OUT_JACK_ID,
-        )
+        _audio_endpoint(desc, self.ep_in, _EMB_OUT_JACK_ID)
 
         # tx side, USB "out" endpoint and embedded MIDI OUT jacks
-        desc.endpoint(self.ep_out, "bulk", 64, 0)
-        desc.pack(
-            "BBBBB",
-            5,  # bLength
-            0x25,  # bDescriptorType CS_ENDPOINT
-            0x01,  # bDescriptorSubtype MS_GENERAL
-            1,  # bNumEmbMIDIJack
-            _EMB_IN_JACK_ID,
-        )
+        _audio_endpoint(desc, self.ep_out, _EMB_IN_JACK_ID)
 
     def num_itfs(self):
         return 2
@@ -278,6 +276,33 @@ def _jack_out_desc(desc, bJackType, bJackID, bSourceId, bSourcePin):
         bSourceId,  # baSourceID(1)
         bSourcePin,  # baSourcePin(1)
         0x00,  # iJack, no string descriptor support yet
+    )
+
+
+def _audio_endpoint(desc, bEndpointAddress, emb_jack_id):
+    # Append a standard USB endpoint descriptor and the USB class endpoint descriptor
+    # for this endpoint.
+    #
+    # Audio Class devices extend the standard endpoint descriptor with two extra bytes,
+    # so we can't easily call desc.endpoint() for the first part.
+    desc.pack(
+        # Standard USB endpoint descriptor (plus audio tweaks)
+        "<BBBBHBBB"
+        # Class endpoint descriptor
+        "BBBBB",
+        _STD_DESC_AUDIO_ENDPOINT_LEN,  # wLength
+        _STD_DESC_ENDPOINT_TYPE,  # bDescriptorType
+        bEndpointAddress,
+        2,  # bmAttributes, bulk
+        64,  # wMaxPacketSize
+        0,  # bInterval
+        0,  # bRefresh (unused)
+        0,  # bSynchInterval (unused)
+        _CLASS_DESC_ENDPOINT_LEN,  # bLength
+        0x25,  # bDescriptorType CS_ENDPOINT
+        0x01,  # bDescriptorSubtype MS_GENERAL
+        1,  # bNumEmbMIDIJack
+        emb_jack_id,  # BaAssocJackID(1)
     )
 
 

@@ -1,1 +1,1 @@
-{"v":1,"hashes":[["usb/device/__init__.py","d97e6f94"],["usb/device/impl.py","51e33cf0"],["usb/device/hid.py","def240b3"],["usb/device/mouse.py","be1af6c5"]],"version":"0.1.0"}
+{"v":1,"hashes":[["usb/device/__init__.py","d97e6f94"],["usb/device/impl.py","d29b6df9"],["usb/device/hid.py","def240b3"],["usb/device/mouse.py","be1af6c5"]],"version":"0.1.0"}
