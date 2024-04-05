@@ -198,12 +198,16 @@ class _Device:
             iConfiguration = len(strs)
             strs.append(configuration_str)
 
-        if max_power_ma is None:
-            # Default to whatever value the builtin driver reports
-            max_power_ma = builtin.desc_cfg[8]
-        else:
-            # Otherwise, convert from mA to the units used in the descriptor
+        if max_power_ma is not None:
+            # Convert from mA to the units used in the descriptor
             max_power_ma //= 2
+        else:
+            try:
+                # Default to whatever value the builtin driver reports
+                max_power_ma = _usbd.BUILTIN_DEFAULT.desc_cfg[8]
+            except IndexError:
+                # If no built-in driver, default to 250mA
+                max_power_ma = 125
 
         desc.pack_into(
             "<BBHBBBBB",

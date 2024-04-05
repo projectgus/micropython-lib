@@ -289,38 +289,32 @@ class CDCInterface(io.IOBase, Interface):
         bmRequestType, bRequest, wValue, wIndex, wLength = struct.unpack("BBHHH", request)
         recipient, req_type, req_dir = split_bmRequestType(bmRequestType)
 
-        # Only for the control interface
         if wIndex != self._c_itf:
-            return False
+            return False  # Only for the control interface (may be redundant check?)
+
+        if req_type != _REQ_TYPE_CLASS:
+            return False  # Unsupported request type
 
         if stage == _STAGE_SETUP:
-            if req_type == _REQ_TYPE_CLASS:
-                if bRequest == _SET_LINE_CODING_REQ:
-                    if wLength == len(self._line_coding):
-                        return self._line_coding
-                    return False  # wrong length
-                elif bRequest == _GET_LINE_CODING_REQ:
-                    return self._line_coding
-                elif bRequest == _SET_CONTROL_LINE_STATE:
-                    if wLength == 0:
-                        self._line_state = wValue
-                        if self.line_state_cb:
-                            self.line_state_cb(wValue)
-                        return b""
-                    else:
-                        return False  # wrong length
-                elif bRequest == _SEND_BREAK_REQ:
-                    if self.break_cb:
-                        self.break_cb(wValue)
-                    return b""
+            if bRequest in (_SET_LINE_CODING_REQ, _GET_LINE_CODING_REQ):
+                return self._line_coding  # Buffer to read or write
 
-        if stage == _STAGE_DATA:
-            if req_type == _REQ_TYPE_CLASS:
-                if bRequest == _SET_LINE_CODING_REQ:
-                    if self.line_coding_cb:
-                        self.line_coding_cb(self._line_coding)
+            # Continue on other supported requests, stall otherwise
+            return bRequest in (_SET_CONTROL_LINE_STATE, _SEND_BREAK_REQ)
 
-        return True
+        if stage == _STAGE_ACK:
+            if bRequest == _SET_LINE_CODING_REQ:
+                if self.line_coding_cb:
+                    self.line_coding_cb(self._line_coding)
+            elif bRequest == _SET_CONTROL_LINE_STATE:
+                self._line_state = wValue
+                if self.line_state_cb:
+                    self.line_state_cb(wValue)
+            elif bRequest == _SEND_BREAK_REQ:
+                if self.break_cb:
+                    self.break_cb(wValue)
+
+        return True  # allow DATA/ACK stages to complete normally
 
     def _wr_xfer(self):
         # Submit a new data IN transfer from the _wb buffer, if needed
@@ -367,8 +361,10 @@ class CDCInterface(io.IOBase, Interface):
             mv = mv[nbytes:]
 
             # check for timeout
-            if time.ticks_diff(time.ticks_ms(), start) > self._timeout:
+            if time.ticks_diff(time.ticks_ms(), start) >= self._timeout:
                 return len(buf) - len(mv)
+
+            machine.idle()
 
     def read(self, size):
         start = time.ticks_ms()
@@ -404,7 +400,7 @@ class CDCInterface(io.IOBase, Interface):
                 if n == len(b):
                     break  # Done, exit before we reach the sleep
 
-            if time.ticks_diff(time.ticks_ms(), start) > self._timeout:
+            if time.ticks_diff(time.ticks_ms(), start) >= self._timeout:
                 break  # Timed out
 
             machine.idle()

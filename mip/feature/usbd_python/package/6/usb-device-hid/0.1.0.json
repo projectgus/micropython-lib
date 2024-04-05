@@ -1,1 +1,1 @@
-{"v":1,"hashes":[["usb/device/__init__.mpy","9b2f05b0"],["usb/device/impl.mpy","b032c4e7"],["usb/device/hid.mpy","e6178e1b"]],"version":"0.1.0"}
+{"v":1,"hashes":[["usb/device/impl.mpy","e2f1027e"],["usb/device/__init__.mpy","9b2f05b0"],["usb/device/hid.mpy","f43ff743"]],"version":"0.1.0"}

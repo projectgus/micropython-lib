@@ -206,37 +206,25 @@ class HIDInterface(Interface):
                     return bytes([self.idle_rate])
                 if bRequest == _REQ_CONTROL_GET_PROTOCOL:
                     return bytes([self.protocol])
+                if bRequest in (_REQ_CONTROL_SET_IDLE, _REQ_CONTROL_SET_PROTOCOL):
+                    return True
+                if bRequest == _REQ_CONTROL_SET_REPORT:
+                    return self._set_report_buf  # If None, request will stall
+            return False  # Unsupported request
+
+        if stage == _STAGE_ACK:
+            if req_type == _REQ_TYPE_CLASS:
                 if bRequest == _REQ_CONTROL_SET_IDLE:
                     self.idle_rate = wValue >> 8
-                    return b""
-                if bRequest == _REQ_CONTROL_SET_PROTOCOL:
+                elif bRequest == _REQ_CONTROL_SET_PROTOCOL:
                     self.protocol = wValue
-                    return b""
-                if bRequest == _REQ_CONTROL_SET_REPORT:
-                    # Return the _set_report_buf to be filled with the
-                    # report data
-                    if not self._set_report_buf:
-                        return False
-                    elif wLength >= len(self._set_report_buf):
-                        # Saves an allocation if the size is exactly right (or will be a short read)
-                        return self._set_report_buf
-                    else:
-                        # Otherwise, need to wrap the buffer in a memoryview of the correct length
-                        #
-                        # TODO: check this is correct, maybe TinyUSB won't mind if we ask for more
-                        # bytes than the host has offered us.
-                        return memoryview(self._set_report_buf)[:wLength]
-            return False  # Unsupported
-
-        if stage == _STAGE_DATA:
-            if req_type == _REQ_TYPE_CLASS:
-                if bRequest == _REQ_CONTROL_SET_REPORT and self._set_report_buf:
+                elif bRequest == _REQ_CONTROL_SET_REPORT:
                     report_id = wValue & 0xFF
                     report_type = wValue >> 8
                     report_data = self._set_report_buf
                     if wLength < len(report_data):
-                        # as above, need to truncate the buffer if we read less
-                        # bytes than what was provided
+                        # need to truncate the response in the callback if we got less bytes
+                        # than allowed for in the buffer
                         report_data = memoryview(self._set_report_buf)[:wLength]
                     self.on_set_report(report_data, report_id, report_type)
 
