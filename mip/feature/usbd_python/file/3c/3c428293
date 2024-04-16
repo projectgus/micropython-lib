@@ -3,6 +3,7 @@
 # MIT license; Copyright (c) 2023-2024 Angus Gratton
 from micropython import const
 import struct
+import machine
 
 from usb.device.hid import HIDInterface
 
@@ -20,6 +21,7 @@ class MouseInterface(HIDInterface):
         self._l = False  # Left button
         self._m = False  # Middle button
         self._r = False  # Right button
+        self._buf = bytearray(3)
 
     def send_report(self, dx=0, dy=0):
         b = 0
@@ -29,16 +31,20 @@ class MouseInterface(HIDInterface):
             b |= 1 << 1
         if self._m:
             b |= 1 << 2
-        # Note: This allocates the bytes object 'report' each time a report is
-        # sent.
-        #
-        # However, at the moment the HIDInterface class doesn't keep track of each
-        # transfer after it's submitted. So reusing a bytearray() creates a risk
-        # of a race condition if a new report transfer is submitted using the
-        # same buffer, before the previous one has completed.
-        report = struct.pack("Bbb", b, dx, dy)
 
-        return super().send_report(report)
+        # Wait for any pending report to be sent to the host
+        # before updating contents of _buf.
+        #
+        # This loop can be removed if you don't care about possibly missing a
+        # transient report, the final report buffer contents will always be the
+        # last one sent to the host (it just might lose one of the ones in the
+        # middle).
+        while self.busy():
+            machine.idle()
+
+        struct.pack_into("Bbb", self._buf, 0, b, dx, dy)
+
+        return super().send_report(self._buf)
 
     def click_left(self, down=True):
         self._l = down
