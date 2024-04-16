@@ -5,6 +5,7 @@
 #
 # MIT license; Copyright (c) 2023 Angus Gratton
 from micropython import const
+import machine
 import struct
 import time
 from .impl import Interface, Descriptor, split_bmRequestType
@@ -118,7 +119,7 @@ class HIDInterface(Interface):
         while self.busy():
             if time.ticks_diff(deadline, time.ticks_ms()) <= 0:
                 return False
-            time.sleep_ms(50)
+            machine.idle()
         if not self.is_open():
             return False
         self.submit_xfer(self._int_ep, report_data)
