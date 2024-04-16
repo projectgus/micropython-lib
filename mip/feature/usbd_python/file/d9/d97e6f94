@@ -1,5 +1,0 @@
-from . import impl
-from .impl import get  # Singleton _Device getter
-
-
-__version__ = '0.1.0'

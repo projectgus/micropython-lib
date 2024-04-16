@@ -1,1 +1,1 @@
-{"v":1,"hashes":[["requests/__init__.py","3aa0fa1d"],["mip/__init__.py","ee0d60a0"],["ntptime.py","729fe312"],["ssl.py","cc4e935f"],["webrepl.py","980f741e"],["webrepl_setup.py","b406557a"],["urequests.py","2bee6a73"]],"version":"0.2.0"}
+{"v":1,"hashes":[["requests/__init__.py","3aa0fa1d"],["mip/__init__.py","ee0d60a0"],["ntptime.py","729fe312"],["ssl.py","89a6e5ef"],["webrepl.py","980f741e"],["webrepl_setup.py","b406557a"],["urequests.py","2bee6a73"]],"version":"0.2.0"}

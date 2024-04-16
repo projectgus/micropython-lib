@@ -8,7 +8,7 @@ from micropython import const
 import machine
 import struct
 import time
-from .impl import Interface, Descriptor, split_bmRequestType
+from .core import Interface, Descriptor, split_bmRequestType
 
 _EP_IN_FLAG = const(1 << 7)
 

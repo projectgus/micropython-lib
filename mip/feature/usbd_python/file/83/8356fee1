@@ -3,7 +3,7 @@
 from micropython import const, schedule
 import struct
 
-from .impl import Interface, Buffer
+from .core import Interface, Buffer
 
 _EP_IN_FLAG = const(1 << 7)
 

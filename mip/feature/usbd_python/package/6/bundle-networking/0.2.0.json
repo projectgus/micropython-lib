@@ -1,1 +1,1 @@
-{"v":1,"hashes":[["requests/__init__.mpy","055bb2da"],["mip/__init__.mpy","ba7ecfd9"],["ntptime.mpy","8a91f2d0"],["ssl.mpy","abc1ea28"],["webrepl.mpy","77c59182"],["webrepl_setup.mpy","16c14698"],["urequests.mpy","10db2d45"]],"version":"0.2.0"}
+{"v":1,"hashes":[["requests/__init__.mpy","055bb2da"],["mip/__init__.mpy","ba7ecfd9"],["ntptime.mpy","8a91f2d0"],["ssl.mpy","d53a3211"],["webrepl.mpy","77c59182"],["webrepl_setup.mpy","16c14698"],["urequests.mpy","10db2d45"]],"version":"0.2.0"}

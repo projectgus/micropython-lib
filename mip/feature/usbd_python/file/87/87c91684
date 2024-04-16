@@ -7,7 +7,7 @@ import machine
 import struct
 from micropython import const
 
-from .impl import Interface, Buffer, split_bmRequestType
+from .core import Interface, Buffer, split_bmRequestType
 
 _EP_IN_FLAG = const(1 << 7)
 
@@ -398,7 +398,7 @@ class CDCInterface(io.IOBase, Interface):
                 n += self._rb.readinto(m if n == 0 else m[n:])
                 self._rd_xfer()  # if _rd was previously full, no transfer will be running
                 if n == len(b):
-                    break  # Done, exit before we reach the sleep
+                    break  # Done, exit before we call machine.idle()
 
             if time.ticks_diff(time.ticks_ms(), start) >= self._timeout:
                 break  # Timed out
