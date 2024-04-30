@@ -113,7 +113,7 @@ class _Device:
         # the machine.USBDevice.BUILTIN_ constants
         if isinstance(builtin_driver, bool):
             builtin_driver = _usbd.BUILTIN_DEFAULT if builtin_driver else _usbd.BUILTIN_NONE
-        builtin = _usbd.builtin_driver = builtin_driver
+        _usbd.builtin_driver = builtin_driver
 
         # Putting None for any strings that should fall back to the "built-in" value
         # Indexes in this list depends on _USB_STR_MANUF, _USB_STR_PRODUCT, _USB_STR_SERIAL
