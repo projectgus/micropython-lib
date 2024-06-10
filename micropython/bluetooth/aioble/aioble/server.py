@@ -38,9 +38,6 @@ _FLAG_WRITE_AUTHORIZED = const(0x4000)
 
 _FLAG_WRITE_CAPTURE = const(0x10000)
 
-_FLAG_DESC_READ = const(1)
-_FLAG_DESC_WRITE = const(2)
-
 
 _WRITE_CAPTURE_QUEUE_LIMIT = const(10)
 
@@ -260,7 +257,7 @@ class Characteristic(BaseCharacteristic):
             raise ValueError("Not supported")
         ble.gatts_notify(connection._conn_handle, self._value_handle, data)
 
-    async def indicate(self, connection, timeout_ms=1000):
+    async def indicate(self, connection, data=None, timeout_ms=1000):
         if not (self.flags & _FLAG_INDICATE):
             raise ValueError("Not supported")
         if self._indicate_connection is not None:
@@ -273,7 +270,7 @@ class Characteristic(BaseCharacteristic):
 
         try:
             with connection.timeout(timeout_ms):
-                ble.gatts_indicate(connection._conn_handle, self._value_handle)
+                ble.gatts_indicate(connection._conn_handle, self._value_handle, data)
                 await self._indicate_event.wait()
                 if self._indicate_status != 0:
                     raise GattError(self._indicate_status)
@@ -293,8 +290,8 @@ class Characteristic(BaseCharacteristic):
 
 
 class BufferedCharacteristic(Characteristic):
-    def __init__(self, service, uuid, max_len=20, append=False):
-        super().__init__(service, uuid, read=True)
+    def __init__(self, *args, max_len=20, append=False, **kwargs):
+        super().__init__(*args, **kwargs)
         self._max_len = max_len
         self._append = append
 
@@ -307,14 +304,13 @@ class Descriptor(BaseCharacteristic):
     def __init__(self, characteristic, uuid, read=False, write=False, initial=None):
         characteristic.descriptors.append(self)
 
-        # Workaround for https://github.com/micropython/micropython/issues/6864
         flags = 0
         if read:
-            flags |= _FLAG_DESC_READ
+            flags |= _FLAG_READ
         if write:
+            flags |= _FLAG_WRITE
             self._write_event = asyncio.ThreadSafeFlag()
             self._write_data = None
-            flags |= _FLAG_DESC_WRITE
 
         self.uuid = uuid
         self.flags = flags
