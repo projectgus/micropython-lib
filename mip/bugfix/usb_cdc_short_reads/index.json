@@ -362,16 +362,16 @@
     },
     {
       "name": "contextlib",
-      "version": "3.4.3",
+      "version": "3.4.4",
       "author": "",
       "description": "Port of contextlib for micropython",
       "license": "MIT",
       "versions": {
         "py": [
-          "3.4.3"
+          "3.4.4"
         ],
         "6": [
-          "3.4.3"
+          "3.4.4"
         ]
       }
     },
@@ -797,16 +797,16 @@
     },
     {
       "name": "logging",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.6.0"
+          "0.6.1"
         ],
         "6": [
-          "0.6.0"
+          "0.6.1"
         ]
       }
     },
@@ -1217,16 +1217,16 @@
     },
     {
       "name": "requests",
-      "version": "0.9.0",
+      "version": "0.10.0",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.9.0"
+          "0.10.0"
         ],
         "6": [
-          "0.9.0"
+          "0.10.0"
         ]
       }
     },
@@ -1474,7 +1474,7 @@
       "name": "uaiohttpclient",
       "version": "0.5.2",
       "author": "",
-      "description": "HTTP client module for MicroPython uasyncio module",
+      "description": "HTTP client module for MicroPython asyncio module",
       "license": "MIT",
       "versions": {
         "py": [
@@ -1562,16 +1562,16 @@
     },
     {
       "name": "unittest-discover",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.2"
+          "0.1.3"
         ],
         "6": [
-          "0.1.2"
+          "0.1.3"
         ]
       }
     },
@@ -1637,16 +1637,16 @@
     },
     {
       "name": "usb-device-cdc",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.0"
+          "0.1.1"
         ],
         "6": [
-          "0.1.0"
+          "0.1.1"
         ]
       }
     },
@@ -1817,5 +1817,5 @@
     }
   ],
   "v": 1,
-  "updated": 1718696131
+  "updated": 1719991135
 }

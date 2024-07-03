@@ -1,1 +1,1 @@
-{"v":1,"hashes":[["usb/device/__init__.py","bbaea093"],["usb/device/core.py","c410f81e"],["usb/device/midi.py","8356fee1"]],"version":"0.1.0"}
+{"v":1,"hashes":[["usb/device/core.py","c410f81e"],["usb/device/__init__.py","bbaea093"],["usb/device/midi.py","8356fee1"]],"version":"0.1.0"}
