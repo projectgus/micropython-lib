@@ -1,0 +1,1 @@
+{"v":1,"hashes":[["aioble/__init__.py","77cce4f0"],["aioble/core.py","4bdda582"],["aioble/device.py","8b17c69b"],["aioble/peripheral.py","2db4092a"],["aioble/server.py","303184d4"],["aioble/central.py","1d96218d"],["aioble/client.py","8990b150"],["aioble/l2cap.py","a75c823a"],["aioble/security.py","c3b8c18a"]],"version":"0.5.2"}
