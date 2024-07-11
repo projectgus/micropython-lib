@@ -811,13 +811,11 @@ class Buffer:
         #
         # If wmax is set then the memoryview is pre-sliced to be at most
         # this many bytes long.
-        ist = machine.disable_irq()
-        try:
-            self._w = self._n
-            end = (self._w + wmax) if wmax else len(self._b)
-            return self._b[self._w : end]
-        finally:
-            machine.enable_irq(ist)
+        #
+        # (No critical section needed as self._w is only updated by the producer.)
+        self._w = self._n
+        end = (self._w + wmax) if wmax else len(self._b)
+        return self._b[self._w : end]
 
     def finish_write(self, nbytes):
         # Called by the producer to indicate it wrote nbytes into the buffer.
