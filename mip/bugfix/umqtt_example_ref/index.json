@@ -13,7 +13,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "python-stdlib/__future__"
     },
     {
       "name": "abc",
@@ -28,37 +29,40 @@
         "6": [
           "0.0.1"
         ]
-      }
+      },
+      "path": "python-stdlib/abc"
     },
     {
       "name": "aioble",
-      "version": "0.4.1",
+      "version": "0.5.2",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.4.1"
+          "0.5.2"
         ],
         "6": [
-          "0.4.1"
+          "0.5.2"
         ]
-      }
+      },
+      "path": "micropython/bluetooth/aioble"
     },
     {
       "name": "aioble-central",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.2.1"
+          "0.2.2"
         ],
         "6": [
-          "0.2.1"
+          "0.2.2"
         ]
-      }
+      },
+      "path": "micropython/bluetooth/aioble-central"
     },
     {
       "name": "aioble-client",
@@ -73,22 +77,24 @@
         "6": [
           "0.3.0"
         ]
-      }
+      },
+      "path": "micropython/bluetooth/aioble-client"
     },
     {
       "name": "aioble-core",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.2.0"
+          "0.3.0"
         ],
         "6": [
-          "0.2.0"
+          "0.3.0"
         ]
-      }
+      },
+      "path": "micropython/bluetooth/aioble-core"
     },
     {
       "name": "aioble-l2cap",
@@ -103,22 +109,24 @@
         "6": [
           "0.2.0"
         ]
-      }
+      },
+      "path": "micropython/bluetooth/aioble-l2cap"
     },
     {
       "name": "aioble-peripheral",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.2.0"
+          "0.2.1"
         ],
         "6": [
-          "0.2.0"
+          "0.2.1"
         ]
-      }
+      },
+      "path": "micropython/bluetooth/aioble-peripheral"
     },
     {
       "name": "aioble-security",
@@ -133,7 +141,8 @@
         "6": [
           "0.2.0"
         ]
-      }
+      },
+      "path": "micropython/bluetooth/aioble-security"
     },
     {
       "name": "aioble-server",
@@ -148,7 +157,8 @@
         "6": [
           "0.4.1"
         ]
-      }
+      },
+      "path": "micropython/bluetooth/aioble-server"
     },
     {
       "name": "aioespnow",
@@ -163,22 +173,24 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/aioespnow"
     },
     {
       "name": "aiohttp",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "author": "",
       "description": "HTTP client module for MicroPython asyncio module",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.0.2"
+          "0.0.3"
         ],
         "6": [
-          "0.0.2"
+          "0.0.3"
         ]
-      }
+      },
+      "path": "python-ecosys/aiohttp"
     },
     {
       "name": "aiorepl",
@@ -193,7 +205,8 @@
         "6": [
           "0.2.0"
         ]
-      }
+      },
+      "path": "micropython/aiorepl"
     },
     {
       "name": "argparse",
@@ -208,7 +221,8 @@
         "6": [
           "0.4.0"
         ]
-      }
+      },
+      "path": "python-stdlib/argparse"
     },
     {
       "name": "base64",
@@ -223,7 +237,8 @@
         "6": [
           "3.3.5"
         ]
-      }
+      },
+      "path": "python-stdlib/base64"
     },
     {
       "name": "binascii",
@@ -238,7 +253,8 @@
         "6": [
           "2.4.1"
         ]
-      }
+      },
+      "path": "python-stdlib/binascii"
     },
     {
       "name": "bisect",
@@ -253,7 +269,8 @@
         "6": [
           "0.5.0"
         ]
-      }
+      },
+      "path": "python-stdlib/bisect"
     },
     {
       "name": "bmi270",
@@ -268,7 +285,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/imu/bmi270"
     },
     {
       "name": "bmm150",
@@ -283,7 +301,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/imu/bmm150"
     },
     {
       "name": "bundle-networking",
@@ -298,7 +317,8 @@
         "6": [
           "0.2.0"
         ]
-      }
+      },
+      "path": "micropython/bundles/bundle-networking"
     },
     {
       "name": "cbor2",
@@ -313,7 +333,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "python-ecosys/cbor2"
     },
     {
       "name": "cmd",
@@ -328,22 +349,24 @@
         "6": [
           "3.4.1"
         ]
-      }
+      },
+      "path": "python-stdlib/cmd"
     },
     {
       "name": "collections",
-      "version": "0.1.2",
+      "version": "0.2.0",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.2"
+          "0.2.0"
         ],
         "6": [
-          "0.1.2"
+          "0.2.0"
         ]
-      }
+      },
+      "path": "python-stdlib/collections"
     },
     {
       "name": "collections-defaultdict",
@@ -358,37 +381,24 @@
         "6": [
           "0.3.0"
         ]
-      }
-    },
-    {
-      "name": "collections-deque",
-      "version": "0.1.3",
-      "author": "",
-      "description": "",
-      "license": "MIT",
-      "versions": {
-        "py": [
-          "0.1.3"
-        ],
-        "6": [
-          "0.1.3"
-        ]
-      }
+      },
+      "path": "python-stdlib/collections-defaultdict"
     },
     {
       "name": "contextlib",
-      "version": "3.4.3",
+      "version": "3.4.4",
       "author": "",
       "description": "Port of contextlib for micropython",
       "license": "MIT",
       "versions": {
         "py": [
-          "3.4.3"
+          "3.4.4"
         ],
         "6": [
-          "3.4.3"
+          "3.4.4"
         ]
-      }
+      },
+      "path": "python-stdlib/contextlib"
     },
     {
       "name": "copy",
@@ -403,7 +413,8 @@
         "6": [
           "3.3.4"
         ]
-      }
+      },
+      "path": "python-stdlib/copy"
     },
     {
       "name": "curses.ascii",
@@ -418,7 +429,8 @@
         "6": [
           "3.4.3"
         ]
-      }
+      },
+      "path": "python-stdlib/curses.ascii"
     },
     {
       "name": "datetime",
@@ -433,7 +445,8 @@
         "6": [
           "4.0.0"
         ]
-      }
+      },
+      "path": "python-stdlib/datetime"
     },
     {
       "name": "dht",
@@ -448,7 +461,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/sensor/dht"
     },
     {
       "name": "ds18x20",
@@ -463,7 +477,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/sensor/ds18x20"
     },
     {
       "name": "errno",
@@ -478,7 +493,8 @@
         "6": [
           "0.1.4"
         ]
-      }
+      },
+      "path": "python-stdlib/errno"
     },
     {
       "name": "espflash",
@@ -493,7 +509,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/espflash"
     },
     {
       "name": "fnmatch",
@@ -508,7 +525,8 @@
         "6": [
           "0.6.1"
         ]
-      }
+      },
+      "path": "python-stdlib/fnmatch"
     },
     {
       "name": "functools",
@@ -523,7 +541,8 @@
         "6": [
           "0.0.7"
         ]
-      }
+      },
+      "path": "python-stdlib/functools"
     },
     {
       "name": "gzip",
@@ -538,7 +557,8 @@
         "6": [
           "1.0.1"
         ]
-      }
+      },
+      "path": "python-stdlib/gzip"
     },
     {
       "name": "hashlib",
@@ -553,7 +573,8 @@
         "6": [
           "2.5.0"
         ]
-      }
+      },
+      "path": "python-stdlib/hashlib"
     },
     {
       "name": "hashlib-core",
@@ -568,7 +589,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "python-stdlib/hashlib-core"
     },
     {
       "name": "hashlib-sha224",
@@ -583,7 +605,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "python-stdlib/hashlib-sha224"
     },
     {
       "name": "hashlib-sha256",
@@ -598,7 +621,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "python-stdlib/hashlib-sha256"
     },
     {
       "name": "hashlib-sha384",
@@ -613,7 +637,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "python-stdlib/hashlib-sha384"
     },
     {
       "name": "hashlib-sha512",
@@ -628,7 +653,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "python-stdlib/hashlib-sha512"
     },
     {
       "name": "heapq",
@@ -643,7 +669,8 @@
         "6": [
           "0.9.3"
         ]
-      }
+      },
+      "path": "python-stdlib/heapq"
     },
     {
       "name": "hmac",
@@ -658,7 +685,8 @@
         "6": [
           "3.4.4"
         ]
-      }
+      },
+      "path": "python-stdlib/hmac"
     },
     {
       "name": "hs3003",
@@ -673,7 +701,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/sensor/hs3003"
     },
     {
       "name": "html",
@@ -688,7 +717,8 @@
         "6": [
           "3.3.4"
         ]
-      }
+      },
+      "path": "python-stdlib/html"
     },
     {
       "name": "hts221",
@@ -703,7 +733,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/sensor/hts221"
     },
     {
       "name": "inspect",
@@ -718,7 +749,8 @@
         "6": [
           "0.1.2"
         ]
-      }
+      },
+      "path": "python-stdlib/inspect"
     },
     {
       "name": "io",
@@ -733,7 +765,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "python-stdlib/io"
     },
     {
       "name": "iperf3",
@@ -748,7 +781,8 @@
         "6": [
           "0.1.4"
         ]
-      }
+      },
+      "path": "python-ecosys/iperf3"
     },
     {
       "name": "itertools",
@@ -763,7 +797,8 @@
         "6": [
           "0.2.3"
         ]
-      }
+      },
+      "path": "python-stdlib/itertools"
     },
     {
       "name": "keyword",
@@ -778,7 +813,8 @@
         "6": [
           "0.0.1"
         ]
-      }
+      },
+      "path": "python-stdlib/keyword"
     },
     {
       "name": "lcd160cr",
@@ -793,7 +829,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/display/lcd160cr"
     },
     {
       "name": "locale",
@@ -808,22 +845,24 @@
         "6": [
           "0.0.2"
         ]
-      }
+      },
+      "path": "python-stdlib/locale"
     },
     {
       "name": "logging",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.6.0"
+          "0.6.1"
         ],
         "6": [
-          "0.6.0"
+          "0.6.1"
         ]
-      }
+      },
+      "path": "python-stdlib/logging"
     },
     {
       "name": "lora",
@@ -838,7 +877,8 @@
         "6": [
           "0.2.0"
         ]
-      }
+      },
+      "path": "micropython/lora/lora"
     },
     {
       "name": "lora-async",
@@ -853,7 +893,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/lora/lora-async"
     },
     {
       "name": "lora-stm32wl5",
@@ -868,22 +909,24 @@
         "6": [
           "0.1"
         ]
-      }
+      },
+      "path": "micropython/lora/lora-stm32wl5"
     },
     {
       "name": "lora-sx126x",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.2"
+          "0.1.3"
         ],
         "6": [
-          "0.1.2"
+          "0.1.3"
         ]
-      }
+      },
+      "path": "micropython/lora/lora-sx126x"
     },
     {
       "name": "lora-sx127x",
@@ -898,7 +941,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/lora/lora-sx127x"
     },
     {
       "name": "lora-sync",
@@ -913,7 +957,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/lora/lora-sync"
     },
     {
       "name": "lps22h",
@@ -928,7 +973,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/sensor/lps22h"
     },
     {
       "name": "lsm6dsox",
@@ -943,7 +989,8 @@
         "6": [
           "1.0.1"
         ]
-      }
+      },
+      "path": "micropython/drivers/imu/lsm6dsox"
     },
     {
       "name": "lsm9ds1",
@@ -958,7 +1005,8 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/imu/lsm9ds1"
     },
     {
       "name": "mhz19",
@@ -973,22 +1021,24 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/sensor/mhz19"
     },
     {
       "name": "mip",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": "",
       "description": "On-device package installer for network-capable boards",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.2.0"
+          "0.3.0"
         ],
         "6": [
-          "0.2.0"
+          "0.3.0"
         ]
-      }
+      },
+      "path": "micropython/mip"
     },
     {
       "name": "mip-cmdline",
@@ -1003,7 +1053,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/mip-cmdline"
     },
     {
       "name": "neopixel",
@@ -1018,7 +1069,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/led/neopixel"
     },
     {
       "name": "nrf24l01",
@@ -1033,22 +1085,24 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/radio/nrf24l01"
     },
     {
       "name": "ntptime",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "",
       "description": "NTP client.",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.0"
+          "0.1.1"
         ],
         "6": [
-          "0.1.0"
+          "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/net/ntptime"
     },
     {
       "name": "onewire",
@@ -1063,7 +1117,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/bus/onewire"
     },
     {
       "name": "operator",
@@ -1078,7 +1133,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "python-stdlib/operator"
     },
     {
       "name": "os",
@@ -1093,7 +1149,8 @@
         "6": [
           "0.6.0"
         ]
-      }
+      },
+      "path": "python-stdlib/os"
     },
     {
       "name": "os-path",
@@ -1108,7 +1165,8 @@
         "6": [
           "0.2.0"
         ]
-      }
+      },
+      "path": "python-stdlib/os-path"
     },
     {
       "name": "pathlib",
@@ -1123,7 +1181,8 @@
         "6": [
           "0.0.1"
         ]
-      }
+      },
+      "path": "python-stdlib/pathlib"
     },
     {
       "name": "pickle",
@@ -1138,7 +1197,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "python-stdlib/pickle"
     },
     {
       "name": "pkg_resources",
@@ -1153,7 +1213,8 @@
         "6": [
           "0.2.1"
         ]
-      }
+      },
+      "path": "python-stdlib/pkg_resources"
     },
     {
       "name": "pkgutil",
@@ -1168,7 +1229,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "python-stdlib/pkgutil"
     },
     {
       "name": "pprint",
@@ -1183,7 +1245,8 @@
         "6": [
           "0.0.4"
         ]
-      }
+      },
+      "path": "python-stdlib/pprint"
     },
     {
       "name": "pyjwt",
@@ -1198,7 +1261,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "python-ecosys/pyjwt"
     },
     {
       "name": "quopri",
@@ -1213,7 +1277,8 @@
         "6": [
           "0.5.1"
         ]
-      }
+      },
+      "path": "python-stdlib/quopri"
     },
     {
       "name": "random",
@@ -1228,22 +1293,24 @@
         "6": [
           "0.2.0"
         ]
-      }
+      },
+      "path": "python-stdlib/random"
     },
     {
       "name": "requests",
-      "version": "0.9.0",
+      "version": "0.10.0",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.9.0"
+          "0.10.0"
         ],
         "6": [
-          "0.9.0"
+          "0.10.0"
         ]
-      }
+      },
+      "path": "python-ecosys/requests"
     },
     {
       "name": "sdcard",
@@ -1258,7 +1325,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/storage/sdcard"
     },
     {
       "name": "senml",
@@ -1273,7 +1341,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/senml"
     },
     {
       "name": "shutil",
@@ -1288,7 +1357,8 @@
         "6": [
           "0.0.5"
         ]
-      }
+      },
+      "path": "python-stdlib/shutil"
     },
     {
       "name": "ssd1306",
@@ -1303,7 +1373,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/drivers/display/ssd1306"
     },
     {
       "name": "ssl",
@@ -1318,7 +1389,8 @@
         "6": [
           "0.2.1"
         ]
-      }
+      },
+      "path": "python-stdlib/ssl"
     },
     {
       "name": "stat",
@@ -1333,7 +1405,8 @@
         "6": [
           "0.5.1"
         ]
-      }
+      },
+      "path": "python-stdlib/stat"
     },
     {
       "name": "string",
@@ -1348,7 +1421,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "python-stdlib/string"
     },
     {
       "name": "struct",
@@ -1363,7 +1437,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "python-stdlib/struct"
     },
     {
       "name": "tarfile",
@@ -1378,7 +1453,8 @@
         "6": [
           "0.4.1"
         ]
-      }
+      },
+      "path": "python-stdlib/tarfile"
     },
     {
       "name": "tarfile-write",
@@ -1393,7 +1469,8 @@
         "6": [
           "0.1.2"
         ]
-      }
+      },
+      "path": "python-stdlib/tarfile-write"
     },
     {
       "name": "tempfile",
@@ -1408,7 +1485,8 @@
         "6": [
           "0.0.1"
         ]
-      }
+      },
+      "path": "python-stdlib/tempfile"
     },
     {
       "name": "textwrap",
@@ -1423,7 +1501,8 @@
         "6": [
           "3.4.3"
         ]
-      }
+      },
+      "path": "python-stdlib/textwrap"
     },
     {
       "name": "threading",
@@ -1438,7 +1517,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "python-stdlib/threading"
     },
     {
       "name": "time",
@@ -1453,7 +1533,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "python-stdlib/time"
     },
     {
       "name": "traceback",
@@ -1468,7 +1549,8 @@
         "6": [
           "0.3.0"
         ]
-      }
+      },
+      "path": "python-stdlib/traceback"
     },
     {
       "name": "types",
@@ -1483,13 +1565,14 @@
         "6": [
           "0.0.1"
         ]
-      }
+      },
+      "path": "python-stdlib/types"
     },
     {
       "name": "uaiohttpclient",
       "version": "0.5.2",
       "author": "",
-      "description": "HTTP client module for MicroPython uasyncio module",
+      "description": "HTTP client module for MicroPython asyncio module",
       "license": "MIT",
       "versions": {
         "py": [
@@ -1498,7 +1581,8 @@
         "6": [
           "0.5.2"
         ]
-      }
+      },
+      "path": "micropython/uaiohttpclient"
     },
     {
       "name": "ucontextlib",
@@ -1513,7 +1597,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/ucontextlib"
     },
     {
       "name": "udnspkt",
@@ -1528,7 +1613,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/udnspkt"
     },
     {
       "name": "umqtt.robust",
@@ -1543,7 +1629,8 @@
         "6": [
           "1.0.2"
         ]
-      }
+      },
+      "path": "micropython/umqtt.robust"
     },
     {
       "name": "umqtt.simple",
@@ -1558,7 +1645,8 @@
         "6": [
           "1.4.0"
         ]
-      }
+      },
+      "path": "micropython/umqtt.simple"
     },
     {
       "name": "unittest",
@@ -1573,22 +1661,24 @@
         "6": [
           "0.10.3"
         ]
-      }
+      },
+      "path": "python-stdlib/unittest"
     },
     {
       "name": "unittest-discover",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.2"
+          "0.1.3"
         ],
         "6": [
-          "0.1.2"
+          "0.1.3"
         ]
-      }
+      },
+      "path": "python-stdlib/unittest-discover"
     },
     {
       "name": "upysh",
@@ -1603,7 +1693,8 @@
         "6": [
           "0.6.1"
         ]
-      }
+      },
+      "path": "micropython/upysh"
     },
     {
       "name": "urequests",
@@ -1618,7 +1709,8 @@
         "6": [
           "0.8.0"
         ]
-      }
+      },
+      "path": "micropython/urequests"
     },
     {
       "name": "urllib.urequest",
@@ -1633,7 +1725,8 @@
         "6": [
           "0.7.0"
         ]
-      }
+      },
+      "path": "micropython/urllib.urequest"
     },
     {
       "name": "usb-device",
@@ -1648,22 +1741,24 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/usb/usb-device"
     },
     {
       "name": "usb-device-cdc",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.0"
+          "0.1.1"
         ],
         "6": [
-          "0.1.0"
+          "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/usb/usb-device-cdc"
     },
     {
       "name": "usb-device-hid",
@@ -1678,22 +1773,24 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/usb/usb-device-hid"
     },
     {
       "name": "usb-device-keyboard",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.0"
+          "0.1.1"
         ],
         "6": [
-          "0.1.0"
+          "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/usb/usb-device-keyboard"
     },
     {
       "name": "usb-device-midi",
@@ -1708,7 +1805,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/usb/usb-device-midi"
     },
     {
       "name": "usb-device-mouse",
@@ -1723,7 +1821,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/usb/usb-device-mouse"
     },
     {
       "name": "uu",
@@ -1738,7 +1837,8 @@
         "6": [
           "0.5.1"
         ]
-      }
+      },
+      "path": "python-stdlib/uu"
     },
     {
       "name": "venv",
@@ -1753,7 +1853,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "python-stdlib/venv"
     },
     {
       "name": "warnings",
@@ -1768,7 +1869,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "python-stdlib/warnings"
     },
     {
       "name": "webrepl",
@@ -1783,7 +1885,8 @@
         "6": [
           "0.1.0"
         ]
-      }
+      },
+      "path": "micropython/net/webrepl"
     },
     {
       "name": "wm8960",
@@ -1798,7 +1901,8 @@
         "6": [
           "0.1.1"
         ]
-      }
+      },
+      "path": "micropython/drivers/codec/wm8960"
     },
     {
       "name": "xmltok",
@@ -1813,7 +1917,8 @@
         "6": [
           "0.2.1"
         ]
-      }
+      },
+      "path": "micropython/xmltok"
     },
     {
       "name": "zlib",
@@ -1828,9 +1933,10 @@
         "6": [
           "1.0.0"
         ]
-      }
+      },
+      "path": "python-stdlib/zlib"
     }
   ],
-  "v": 1,
-  "updated": 1724724319
+  "v": 2,
+  "updated": 1725799822
 }
