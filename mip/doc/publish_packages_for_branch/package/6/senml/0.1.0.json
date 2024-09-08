@@ -1,1 +1,0 @@
-{"v":1,"hashes":[["cbor2/decoder.mpy","c58e0536"],["cbor2/encoder.mpy","f902fb86"],["cbor2/__init__.mpy","84da2c2b"],["senml/__init__.mpy","82b51770"],["senml/senml_base.mpy","a1296d4a"],["senml/senml_unit.mpy","a502eee0"],["senml/senml_record.mpy","47a7df42"],["senml/senml_pack.mpy","62dd349c"]],"version":"0.1.0"}
