@@ -1,1 +1,1 @@
-{"v":1,"hashes":[["usb/device/__init__.py","57dd73fc"],["usb/device/core.py","9ee3a127"],["usb/device/cdc.py","e6ee5c81"]],"version":"0.1.1"}
+{"v":1,"hashes":[["usb/device/__init__.py","57dd73fc"],["usb/device/core.py","46d15d3f"],["usb/device/cdc.py","e6ee5c81"]],"version":"0.1.1"}
