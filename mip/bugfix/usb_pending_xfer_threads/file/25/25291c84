@@ -331,8 +331,12 @@ class _Device:
         self._cb_thread = get_ident()
         self._cb_ep = ep_addr  # Track while callback is running
         self._ep_cbs[ep_addr] = None
+
+        # In most cases, 'cb' is a callback function for the transfer. Can also be:
+        # - True (for a transfer with no callback)
+        # - None (TinyUSB callback arrived for invalid endpoint, or no transfer.
+        #   Generally unlikely, but may happen in transient states.)
         try:
-            # For a pending xfer, 'cb' should either a callback function or True (if no callback)
             if callable(cb):
                 cb(ep_addr, result, xferred_bytes)
         finally:
