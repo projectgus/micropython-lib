@@ -1634,16 +1634,16 @@
     },
     {
       "name": "umqtt.simple",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "author": "",
       "description": "Lightweight MQTT client for MicroPython.",
       "license": "MIT",
       "versions": {
         "py": [
-          "1.4.0"
+          "1.5.0"
         ],
         "6": [
-          "1.4.0"
+          "1.5.0"
         ]
       },
       "path": "micropython/umqtt.simple"
@@ -1938,5 +1938,5 @@
     }
   ],
   "v": 2,
-  "updated": 1730766267
+  "updated": 1730944198
 }
