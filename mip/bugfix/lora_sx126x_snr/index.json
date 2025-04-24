@@ -914,16 +914,16 @@
     },
     {
       "name": "lora-sx126x",
-      "version": "0.1.4",
+      "version": "0.1.5",
       "author": "",
       "description": "",
       "license": "MIT",
       "versions": {
         "py": [
-          "0.1.4"
+          "0.1.5"
         ],
         "6": [
-          "0.1.4"
+          "0.1.5"
         ]
       },
       "path": "micropython/lora/lora-sx126x"
@@ -1938,5 +1938,5 @@
     }
   ],
   "v": 2,
-  "updated": 1745455044
+  "updated": 1745475720
 }
