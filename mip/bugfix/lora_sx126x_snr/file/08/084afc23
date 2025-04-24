@@ -1,0 +1,9 @@
+def pformat(obj):
+    return repr(obj)
+
+
+def pprint(obj):
+    print(repr(obj))
+
+
+__version__ = '0.0.4'
