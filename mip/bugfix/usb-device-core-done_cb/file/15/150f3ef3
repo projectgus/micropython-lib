@@ -1,0 +1,8 @@
+# Import built-in t-string classes if they exist.
+try:
+    from ustring.templatelib import *
+except:
+    pass
+
+
+__version__ = '0.2.0'
