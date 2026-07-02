@@ -1,0 +1,1 @@
+{"v":1,"hashes":[["cbor2/__init__.py","cf9f21bc"],["cbor2/_decoder.py","d167dda0"],["cbor2/_encoder.py","7e78e8e2"],["senml/senml_record.py","de74041f"],["senml/__init__.py","657ecbf7"],["senml/senml_pack.py","9887f073"],["senml/senml_base.py","42732ade"],["senml/senml_unit.py","15ecce31"]],"version":"0.1.1"}
